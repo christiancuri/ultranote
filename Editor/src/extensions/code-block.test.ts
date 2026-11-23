@@ -148,6 +148,50 @@ describe('code block keys', () => {
     expect(ed.state.doc.child(1).type.name).toBe('paragraph')
   })
 
+  it('deleting the last character keeps the empty block and leaves the next one alone', () => {
+    for (const [key, offset] of [['Backspace', 1], ['Delete', 0]] as const) {
+      const ed = mount('```\n1\n```\n\n```\nabc\n```\n')
+      selectInCode(ed, offset)
+      expect(press(ed, key)).toBe(true)
+      expect(ed.state.doc.child(0).type.name).toBe('codeBlock')
+      expect(ed.state.doc.child(0).textContent).toBe('')
+      expect(ed.state.doc.child(1).textContent).toBe('abc')
+      expect(ed.state.selection.$from.parent).toBe(ed.state.doc.child(0))
+      editor?.destroy()
+    }
+    // Not the last character: left to the browser.
+    const ed = mount('```\n12\n```\n')
+    selectInCode(ed, 2)
+    expect(press(ed, 'Backspace')).toBe(false)
+  })
+
+  it('ArrowUp / ArrowDown move between neighbouring code blocks', () => {
+    const ed = mount('```\n123\n```\n\n```\nabc\n```\n\nEnd\n')
+    ed.view.endOfTextblock = () => true // jsdom has no layout
+    const second = ed.state.doc.child(0).nodeSize + 1
+    ed.view.dispatch(ed.state.tr.setSelection(TextSelection.create(ed.state.doc, second + 1)))
+    expect(press(ed, 'ArrowUp')).toBe(true)
+    expect(ed.state.selection.$from.parent.textContent).toBe('123')
+    expect(press(ed, 'ArrowDown')).toBe(true)
+    expect(ed.state.selection.$from.parent.textContent).toBe('abc')
+    expect(press(ed, 'ArrowDown')).toBe(true)
+    expect(ed.state.selection.$from.parent.textContent).toBe('End')
+    // Between two paragraphs: the browser's own motion.
+    const plain = mount('a\n\nb\n')
+    plain.view.endOfTextblock = () => true
+    plain.view.dispatch(plain.state.tr.setSelection(TextSelection.create(plain.state.doc, 4)))
+    expect(press(plain, 'ArrowUp')).toBe(false)
+  })
+
+  it('Delete in an empty block removes that block, not the next one', () => {
+    const ed = mount('```\n```\n\n```\nabc\n```\n')
+    selectInCode(ed, 0)
+    expect(press(ed, 'Delete')).toBe(true)
+    expect(md(ed)).toBe('```\nabc\n```\n')
+    expect(ed.state.selection.$from.parent.textContent).toBe('abc')
+    expect(ed.state.selection.$from.parentOffset).toBe(0)
+  })
+
   it('pastes plain text with its newlines', () => {
     const ed = mount('```\n\n```\n')
     selectInCode(ed, 0)

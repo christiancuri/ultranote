@@ -8,7 +8,7 @@
  * and Tab never moves focus out of the editor.
  */
 import { Extension, type Editor } from '@tiptap/core'
-import { Plugin, PluginKey, TextSelection } from '@tiptap/pm/state'
+import { Plugin, PluginKey, Selection, TextSelection } from '@tiptap/pm/state'
 
 export const INDENT = '  '
 
@@ -141,6 +141,45 @@ function fenceToCodeBlock(editor: Editor): boolean {
   return true
 }
 
+/**
+ * Deletes the block's last remaining text ourselves. Left to WebKit, removing
+ * the only text in a `<pre><code>` drops the element, ProseMirror reads the
+ * DOM wrong, and the next key edits (or deletes) the neighbouring block.
+ */
+function deleteLastText(editor: Editor, forward: boolean): boolean {
+  const { $from, from, to, empty } = editor.state.selection
+  const size = $from.parent.content.size
+  if (size === 0) return false
+  const range = empty ? (forward ? [from, from + 1] : [from - 1, from]) : [from, to]
+  const [start, end] = range as [number, number]
+  if (start < $from.start() || end > $from.end() || end - start < size) return false
+  editor.view.dispatch(editor.state.tr.delete(start, end).scrollIntoView())
+  return true
+}
+
+/**
+ * ArrowUp / ArrowDown across the edge of a code block. WebKit's own caret
+ * motion trips over the block's non-editable language button and bounces
+ * between the blocks, so the move to the neighbouring textblock is ours.
+ */
+function crossBlock(editor: Editor, dir: 'up' | 'down'): boolean {
+  const { state, view } = editor
+  const { $from, empty } = state.selection
+  if (!empty || !$from.parent.isTextblock) return false
+  const up = dir === 'up'
+  const edge = up ? $from.before() : $from.after()
+  const $edge = state.doc.resolve(edge)
+  const neighbour = up ? $edge.nodeBefore : $edge.nodeAfter
+  if (!neighbour || ($from.parent.type.name !== CODE_BLOCK && neighbour.type.name !== CODE_BLOCK)) return false
+  const text = $from.parent.textContent
+  const onEdgeLine = up ? !text.slice(0, $from.parentOffset).includes('\n') : !text.slice($from.parentOffset).includes('\n')
+  if (!onEdgeLine || !view.endOfTextblock(dir)) return false
+  const target = Selection.findFrom($edge, up ? -1 : 1, true)
+  if (!target) return false
+  view.dispatch(state.tr.setSelection(target).scrollIntoView())
+  return true
+}
+
 /** Runs before the list and table keymaps, so code blocks inside them still indent. */
 export const CodeBlockKeys = Extension.create({
   name: 'codeBlockKeys',
@@ -154,13 +193,18 @@ export const CodeBlockKeys = Extension.create({
       Enter: () => (inCodeBlock(editor) ? newline(editor) : fenceToCodeBlock(editor)),
       'Shift-Enter': () => inCodeBlock(editor) && newline(editor),
       'Mod-Enter': () => inCodeBlock(editor) && exitBelow(editor),
+      Backspace: () => inCodeBlock(editor) && deleteLastText(editor, false),
+      Delete: () => inCodeBlock(editor) && deleteLastText(editor, true),
       ArrowDown: () => {
         const { $from, empty } = editor.state.selection
-        if (!empty || !inCodeBlock(editor)) return false
+        if (!empty) return false
+        if (!inCodeBlock(editor)) return crossBlock(editor, 'down')
         const onLastLine = !$from.parent.textContent.slice($from.parentOffset).includes('\n')
         const lastNode = $from.after() === editor.state.doc.content.size
-        return onLastLine && lastNode && exitBelow(editor)
+        if (onLastLine && lastNode) return exitBelow(editor)
+        return crossBlock(editor, 'down')
       },
+      ArrowUp: () => crossBlock(editor, 'up'),
     }
   },
 

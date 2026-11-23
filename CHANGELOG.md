@@ -3,6 +3,11 @@
 All notable changes to UltraNote. Each `## <version>` section is used as the
 GitHub Release notes and the in-app (Sparkle) update notes.
 
+## 0.2.2
+
+- **Fixed:** deleting the last character of a code block no longer deletes the next code block; deleting an empty code block now removes only that block.
+- **Fixed:** ↑ and ↓ move between neighbouring code blocks instead of bouncing between them.
+
 ## 0.2.1
 
 - **Writing code is much better.** In a code block, Tab and Shift+Tab indent and outdent (also several lines at once) instead of leaving the editor; Enter keeps the line's indentation and indents after `{`, `(`, `[` or `:`; a closing `}`, `)` or `]` outdents itself; blank lines stay inside the block; ⌘↩ continues below the block; pasted code keeps its line breaks; and autocorrect stays out of your code.
