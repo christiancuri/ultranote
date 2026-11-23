@@ -1,6 +1,118 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@ (not listed)" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (not listed)"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ (não listado)"
+          }
+        }
+      }
+    },
+    "%@ did not answer in time. Try again." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ did not answer in time. Try again."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ não respondeu a tempo. Tente de novo."
+          }
+        }
+      }
+    },
+    "%@ gave an empty answer. Try again." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ gave an empty answer. Try again."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ deu uma resposta vazia. Tente de novo."
+          }
+        }
+      }
+    },
+    "%@ is not installed on this Mac. Install it, or set its path in Settings." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ is not installed on this Mac. Install it, or set its path in Settings."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ não está instalado neste Mac. Instale-o ou defina o caminho nos Ajustes."
+          }
+        }
+      }
+    },
+    "%@ stopped unexpectedly. Try again." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ stopped unexpectedly. Try again."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ parou inesperadamente. Tente de novo."
+          }
+        }
+      }
+    },
+    "%@ usage limit reached." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ usage limit reached."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite de uso do %@ atingido."
+          }
+        }
+      }
+    },
+    "%@ usage limit reached. It resets at %@." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@ usage limit reached. It resets at %@."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Limite de uso do %@ atingido. Ele volta às %@."
+          }
+        }
+      }
+    },
     "%lld pt" : {
       "localizations" : {
         "en" : {
@@ -17,6 +129,38 @@
         }
       }
     },
+    "AI" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "IA"
+          }
+        }
+      }
+    },
+    "AI features are turned off in Settings." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AI features are turned off in Settings."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Os recursos de IA estão desativados nos Ajustes."
+          }
+        }
+      }
+    },
     "About UltraNote" : {
       "localizations" : {
         "en" : {
@@ -29,6 +173,86 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobre o UltraNote"
+          }
+        }
+      }
+    },
+    "Advanced" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Advanced"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avançado"
+          }
+        }
+      }
+    },
+    "Answered by" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answered by"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respondido por"
+          }
+        }
+      }
+    },
+    "Answers" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Answers"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respostas"
+          }
+        }
+      }
+    },
+    "Ask AI" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask AI"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Perguntar à IA"
+          }
+        }
+      }
+    },
+    "Ask AI uses the Claude Code or Codex app installed on this Mac, with your own subscription. Nothing goes through an UltraNote server." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ask AI uses the Claude Code or Codex app installed on this Mac, with your own subscription. Nothing goes through an UltraNote server."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Perguntar à IA usa o Claude Code ou o Codex instalado neste Mac, com a sua própria assinatura. Nada passa por um servidor do UltraNote."
           }
         }
       }
@@ -97,6 +321,22 @@
         }
       }
     },
+    "Check Again" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check Again"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificar de Novo"
+          }
+        }
+      }
+    },
     "Check for Updates…" : {
       "localizations" : {
         "en" : {
@@ -141,6 +381,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Verifique a ortografia ou tente outra busca."
+          }
+        }
+      }
+    },
+    "Checking %@…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Checking %@…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verificando %@…"
           }
         }
       }
@@ -193,6 +449,22 @@
         }
       }
     },
+    "Claude Code path" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Claude Code path"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caminho do Claude Code"
+          }
+        }
+      }
+    },
     "Code Block" : {
       "localizations" : {
         "en" : {
@@ -205,6 +477,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Bloco de código"
+          }
+        }
+      }
+    },
+    "Codex path" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Codex path"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caminho do Codex"
           }
         }
       }
@@ -237,6 +525,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Escuro"
+          }
+        }
+      }
+    },
+    "Default" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Default"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Padrão"
           }
         }
       }
@@ -289,6 +593,38 @@
         }
       }
     },
+    "Effort" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Effort"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esforço"
+          }
+        }
+      }
+    },
+    "Enable AI features" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enable AI features"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ativar recursos de IA"
+          }
+        }
+      }
+    },
     "Export" : {
       "localizations" : {
         "en" : {
@@ -333,6 +669,54 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exportando “%@”…"
+          }
+        }
+      }
+    },
+    "Extra high" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra high"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extra alto"
+          }
+        }
+      }
+    },
+    "Fast mode" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fast mode"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modo rápido"
+          }
+        }
+      }
+    },
+    "Faster output, uses more of your plan." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Faster output, uses more of your plan."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Respostas mais rápidas, usa mais do seu plano."
           }
         }
       }
@@ -465,6 +849,38 @@
         }
       }
     },
+    "Found automatically" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Found automatically"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Encontrado automaticamente"
+          }
+        }
+      }
+    },
+    "General" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "General"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Geral"
+          }
+        }
+      }
+    },
     "Heading 1" : {
       "localizations" : {
         "en" : {
@@ -513,6 +929,22 @@
         }
       }
     },
+    "High" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "High"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alto"
+          }
+        }
+      }
+    },
     "Image…" : {
       "localizations" : {
         "en" : {
@@ -525,6 +957,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Imagem…"
+          }
+        }
+      }
+    },
+    "Include the whole note as context" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Include the whole note as context"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Incluir a nota inteira como contexto"
           }
         }
       }
@@ -561,6 +1009,22 @@
         }
       }
     },
+    "Install %@, then check again" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Install %@, then check again"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Instale o %@ e verifique de novo"
+          }
+        }
+      }
+    },
     "Italic" : {
       "localizations" : {
         "en" : {
@@ -589,6 +1053,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Idioma"
+          }
+        }
+      }
+    },
+    "Leave empty to find the CLI automatically." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Leave empty to find the CLI automatically."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Deixe vazio para encontrar a CLI automaticamente."
           }
         }
       }
@@ -625,6 +1105,38 @@
         }
       }
     },
+    "Loading models…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Loading models…"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Carregando modelos…"
+          }
+        }
+      }
+    },
+    "Low" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Low"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Baixo"
+          }
+        }
+      }
+    },
     "Markdown…" : {
       "localizations" : {
         "en" : {
@@ -641,6 +1153,38 @@
         }
       }
     },
+    "Max" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Max"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Máximo"
+          }
+        }
+      }
+    },
+    "Medium" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medium"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Médio"
+          }
+        }
+      }
+    },
     "Mermaid Diagram" : {
       "localizations" : {
         "en" : {
@@ -653,6 +1197,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Diagrama Mermaid"
+          }
+        }
+      }
+    },
+    "Model" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Model"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Modelo"
           }
         }
       }
@@ -813,6 +1373,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nenhum texto adicional"
+          }
+        }
+      }
+    },
+    "Not checked yet" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not checked yet"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda não verificado"
           }
         }
       }
@@ -1057,6 +1633,54 @@
         }
       }
     },
+    "Retry" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tentar de Novo"
+          }
+        }
+      }
+    },
+    "Run `claude` in Terminal and log in" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Run `claude` in Terminal and log in"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute `claude` no Terminal e faça login"
+          }
+        }
+      }
+    },
+    "Run `codex login` in Terminal" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Run `codex login` in Terminal"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute `codex login` no Terminal"
+          }
+        }
+      }
+    },
     "Search" : {
       "localizations" : {
         "en" : {
@@ -1085,6 +1709,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar no Finder"
+          }
+        }
+      }
+    },
+    "Still answering the previous request." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Still answering the previous request."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ainda respondendo ao pedido anterior."
           }
         }
       }
@@ -1137,6 +1777,38 @@
         }
       }
     },
+    "The %@ model chosen in Settings is not available." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The %@ model chosen in Settings is not available."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O modelo do %@ escolhido nos Ajustes não está disponível."
+          }
+        }
+      }
+    },
+    "The answer could not be read. Try again." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The answer could not be read. Try again."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ler a resposta. Tente de novo."
+          }
+        }
+      }
+    },
     "The editor could not start" : {
       "localizations" : {
         "en" : {
@@ -1149,6 +1821,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O editor não pôde ser iniciado"
+          }
+        }
+      }
+    },
+    "The model list could not be read." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The model list could not be read."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Não foi possível ler a lista de modelos."
           }
         }
       }
@@ -1181,6 +1869,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "A nota tem imagens: ela é exportada como uma pasta com o arquivo Markdown e seus anexos."
+          }
+        }
+      }
+    },
+    "The note is sent with your request so answers fit it. Turn off to send only the selection." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The note is sent with your request so answers fit it. Turn off to send only the selection."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A nota vai junto com o pedido para que as respostas combinem com ela. Desative para enviar só a seleção."
+          }
+        }
+      }
+    },
+    "The request failed. Try again." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The request failed. Try again."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O pedido falhou. Tente de novo."
           }
         }
       }
@@ -1265,6 +1985,22 @@
         }
       }
     },
+    "You are not logged in to %@. Log in, then try again." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You are not logged in to %@. Log in, then try again."
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Você não está conectado ao %@. Faça login e tente de novo."
+          }
+        }
+      }
+    },
     "You can restore it from the Trash in Finder." : {
       "localizations" : {
         "en" : {
@@ -1293,6 +2029,38 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Suas notas ficam neste Mac. O UltraNote procura atualizações a cada hora."
+          }
+        }
+      }
+    },
+    "logged in" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "logged in"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "conectado"
+          }
+        }
+      }
+    },
+    "login not confirmed" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "login not confirmed"
+          }
+        },
+        "pt-BR" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "login não confirmado"
           }
         }
       }

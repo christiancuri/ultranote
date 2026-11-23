@@ -1,0 +1,356 @@
+/*
+ * Ask AI: the panel, the bubble button and the highlighted range. Edit mode
+ * only; nothing here prints. Violet accent, as macOS uses for AI features.
+ */
+
+:root {
+  --ai-accent: light-dark(#7c4ddb, #b197fc);
+  --ai-accent-surface: color-mix(in srgb, var(--ai-accent) 12%, transparent);
+}
+
+/* The range the panel works on, shown while focus is in the panel. */
+.note .ai-selection {
+  background: color-mix(in srgb, var(--ai-accent) 22%, transparent);
+  border-radius: 2px;
+}
+
+/* Bubble button */
+
+.menu-button-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--ai-accent);
+  font-weight: 500;
+}
+
+.menu-button-ai:hover {
+  background: var(--ai-accent-surface);
+}
+
+.menu-button-ai-icon {
+  font-size: 12px;
+}
+
+/* Panel */
+
+/* In the note's flow, between blocks; never part of the text. */
+.ai-panel-host {
+  margin: 8px 0 12px;
+  user-select: none;
+  white-space: normal;
+  caret-color: auto;
+}
+
+.ai-panel-host:empty {
+  display: none;
+}
+
+.ai-panel {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  user-select: text;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 8px;
+  background: var(--background);
+  color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--ai-accent) 35%, var(--border));
+  border-radius: 12px;
+  box-shadow: var(--popover-shadow);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.4;
+  animation: popover-in 0.12s ease-out;
+}
+
+.ai-input-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 2px 2px 2px 6px;
+}
+
+.ai-sparkle {
+  flex: none;
+  padding-top: 5px;
+  color: var(--ai-accent);
+  font-size: 14px;
+}
+
+.ai-input {
+  flex: 1;
+  min-width: 0;
+  min-height: 28px;
+  padding: 4px 0;
+  border: none;
+  outline: none;
+  resize: none;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.ai-input::placeholder {
+  color: var(--text-muted);
+}
+
+.ai-button {
+  flex: none;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: 7px;
+  background: var(--background);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.ai-button:hover:not(:disabled) {
+  background: var(--hover);
+}
+
+.ai-button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.ai-button:focus-visible,
+.ai-menu-item:focus-visible {
+  outline: 2px solid color-mix(in srgb, var(--ai-accent) 60%, transparent);
+  outline-offset: 1px;
+}
+
+.ai-send,
+.ai-primary {
+  border-color: transparent;
+  background: var(--ai-accent);
+  color: #fff;
+}
+
+.ai-send {
+  width: 28px;
+  padding: 0;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.ai-send:hover:not(:disabled),
+.ai-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--ai-accent) 85%, black);
+}
+
+.ai-stop {
+  color: var(--ai-accent);
+}
+
+/* Presets */
+
+.ai-menu {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.ai-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 6px 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ai-menu-item:hover {
+  background: var(--hover);
+}
+
+.ai-chevron {
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+.ai-menu-item[aria-expanded='true'] .ai-chevron {
+  transform: rotate(90deg);
+}
+
+.ai-submenu-items {
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+}
+
+/* Answer */
+
+.ai-answer {
+  max-height: 50vh;
+  overflow-y: auto;
+  padding: 4px 8px;
+}
+
+.ai-thinking {
+  color: var(--text-muted);
+  animation: ai-pulse 1.2s ease-in-out infinite;
+}
+
+.ai-note {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.ai-error {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: var(--error-surface);
+  color: var(--error);
+}
+
+.ai-markdown {
+  font-size: 15px;
+  line-height: 1.55;
+  overflow-wrap: break-word;
+}
+
+.ai-markdown > :first-child {
+  margin-top: 0;
+}
+
+.ai-markdown > :last-child {
+  margin-bottom: 0;
+}
+
+.ai-markdown p,
+.ai-markdown ul,
+.ai-markdown ol,
+.ai-markdown blockquote,
+.ai-markdown pre {
+  margin: 0.5em 0;
+}
+
+.ai-markdown h1,
+.ai-markdown h2,
+.ai-markdown h3 {
+  margin: 0.8em 0 0.3em;
+  line-height: 1.3;
+}
+
+.ai-markdown h1 {
+  font-size: 1.4em;
+}
+
+.ai-markdown h2 {
+  font-size: 1.2em;
+}
+
+.ai-markdown h3 {
+  font-size: 1.05em;
+}
+
+.ai-markdown ul,
+.ai-markdown ol {
+  padding-left: 1.4em;
+}
+
+.ai-markdown ul[data-type='taskList'] {
+  padding-left: 0.2em;
+  list-style: none;
+}
+
+.ai-markdown blockquote {
+  padding-left: 12px;
+  border-left: 3px solid var(--border);
+  color: var(--text-muted);
+}
+
+.ai-markdown code {
+  padding: 0.1em 0.3em;
+  border-radius: 4px;
+  background: var(--surface);
+  color: var(--inline-code);
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+.ai-markdown pre {
+  padding: 10px 12px;
+  overflow-x: auto;
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.ai-markdown pre code {
+  padding: 0;
+  background: none;
+  color: var(--text);
+}
+
+.ai-markdown table {
+  border-collapse: collapse;
+}
+
+.ai-markdown th,
+.ai-markdown td {
+  padding: 4px 8px;
+  border: 1px solid var(--border);
+}
+
+.ai-markdown a {
+  color: var(--accent);
+}
+
+.ai-markdown img {
+  max-width: 100%;
+}
+
+/* Result actions */
+
+.ai-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 2px 2px;
+  border-top: 1px solid var(--border);
+}
+
+.ai-footer {
+  padding: 0 6px;
+  color: var(--text-muted);
+  font-size: 11px;
+}
+
+@keyframes ai-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media print {
+  .ai-panel {
+    display: none !important;
+  }
+
+  .note .ai-selection {
+    background: none;
+  }
+}

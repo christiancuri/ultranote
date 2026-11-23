@@ -15,6 +15,14 @@ public enum EditorMessage: Equatable, Sendable {
     case saveAttachment(SaveAttachmentPayload)
     /// The user wants to choose an image file. Reply: like `saveAttachment`, or `null` when cancelled.
     case pickImage
+    /// Ask AI: a request from the AI panel. Reply `null`; the answer streams as `aiEvent` calls.
+    case aiAsk(AIAskPayload)
+    /// Ask AI: stop the running request.
+    case aiCancel(AICancelPayload)
+    /// Ask AI: the panel closed; forget the conversation.
+    case aiReset
+    /// Ask AI: open Settings on the AI tab.
+    case aiOpenSettings
 
     public var type: MessageType {
         switch self {
@@ -24,6 +32,10 @@ public enum EditorMessage: Equatable, Sendable {
         case .log: .log
         case .saveAttachment: .saveAttachment
         case .pickImage: .pickImage
+        case .aiAsk: .aiAsk
+        case .aiCancel: .aiCancel
+        case .aiReset: .aiReset
+        case .aiOpenSettings: .aiOpenSettings
         }
     }
 }
@@ -36,6 +48,10 @@ public enum MessageType: String, Codable, Sendable, CaseIterable {
     case log
     case saveAttachment
     case pickImage
+    case aiAsk
+    case aiCancel
+    case aiReset
+    case aiOpenSettings
 }
 
 public struct SaveAttachmentPayload: Codable, Equatable, Sendable {

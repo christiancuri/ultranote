@@ -57,7 +57,7 @@ describe('edit mode', () => {
 
   it('installs window.ultranote with the contract functions', () => {
     expect(Object.keys(window.ultranote ?? {}).sort()).toEqual(
-      ['debugInfo', 'getMarkdown', 'getText', 'insertImage', 'renderExport', 'runCommand', 'setAppearance', 'setNote'].sort(),
+      ['aiEvent', 'debugInfo', 'getMarkdown', 'setAIState', 'getText', 'insertImage', 'renderExport', 'runCommand', 'setAppearance', 'setNote'].sort(),
     )
   })
 

@@ -14,6 +14,8 @@
 import type { Editor } from '@tiptap/core'
 import { EditorState } from '@tiptap/pm/state'
 
+import { aiStore } from './ai/store'
+import { decodeAIAvailability, decodeAIEvent, type AIAskPayload, type AIAvailability, type AIEvent } from './ai/session'
 import { applyAppearance, type Appearance } from './appearance'
 import type { EditorMode } from './editor/extensions'
 import { createCommands } from './editor/commands'
@@ -40,6 +42,13 @@ export interface OutgoingMessages {
   saveAttachment: { name: string; mime: string; base64: string }
   /** Reply: same shape as `saveAttachment`, or null when the user cancelled. */
   pickImage: Record<string, never>
+  /** Ask AI (Phase 7). Reply: null; the answer arrives through `aiEvent`. */
+  aiAsk: AIAskPayload
+  /** Stop the request; the host answers with a `cancelled` event (ignored once stopped here). */
+  aiCancel: { requestId: string }
+  /** The panel closed: forget the conversation. */
+  aiReset: Record<string, never>
+  aiOpenSettings: Record<string, never>
 }
 
 export type MessageType = keyof OutgoingMessages
@@ -76,6 +85,9 @@ function parseReply(reply: unknown): unknown {
   }
 }
 
+/** Dispatched on `window` for every message posted without a native host. */
+export const STANDALONE_POST_EVENT = 'ultranote:post'
+
 /** The WebKit message handler when running inside the app, the console otherwise. */
 export function defaultHost(): Host {
   const handler = typeof window === 'undefined' ? undefined : window.webkit?.messageHandlers?.ultranote
@@ -92,6 +104,8 @@ export function defaultHost(): Host {
     native: false,
     post(type, payload) {
       console.info(`[ultranote bridge] ${type}`, payload)
+      // Lets a standalone stub (see main.tsx) play the host.
+      window.dispatchEvent(new CustomEvent(STANDALONE_POST_EVENT, { detail: { type, payload } }))
       return Promise.resolve(null)
     },
   }
@@ -122,6 +136,10 @@ export interface UltraNoteAPI {
    * viewport) it goes to the document position under that point.
    */
   insertImage(args: { path: string; x?: number; y?: number }): Promise<boolean>
+  /** Streams an Ask AI answer; events for another request than the panel's are ignored. */
+  aiEvent(event: AIEvent): Promise<void>
+  /** Shows (enabled) or hides every Ask AI entry point. Hidden until the host calls this. */
+  setAIState(state: AIAvailability): Promise<void>
 }
 
 export interface BridgeOptions {
@@ -245,6 +263,15 @@ export function createBridge({ editor, mode, host = defaultHost(), installGlobal
       const at =
         typeof x === 'number' && typeof y === 'number' ? editor.view.posAtCoords({ left: x, top: y })?.pos : undefined
       return insertImageAt(editor, safe, at)
+    },
+
+    async aiEvent(event) {
+      const decoded = decodeAIEvent(event)
+      if (decoded) aiStore(editor).handleEvent(decoded)
+    },
+
+    async setAIState(state) {
+      aiStore(editor).setAvailability(decodeAIAvailability(state))
     },
 
     async debugInfo() {

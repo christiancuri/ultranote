@@ -121,6 +121,10 @@ private struct FormatMenu: View {
             item(L("Table"), .insertTable)
             item(L("Mermaid Diagram"), .insertMermaid)
             item(L("Image…"), .insertImage)
+            if model.ai.settings.enabled {
+                Divider()
+                item(L("Ask AI"), .askAI, "j")
+            }
         }
         .disabled(model.notes.selectedID == nil)
     }

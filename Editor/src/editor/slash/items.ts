@@ -14,7 +14,7 @@ export interface SlashItem {
   command: CommandName
 }
 
-type SlashId = 'text' | 'h1' | 'h2' | 'h3' | 'bullet' | 'numbered' | 'todo' | 'table' | 'code' | 'mermaid' | 'quote' | 'divider' | 'image'
+type SlashId = 'ai' | 'text' | 'h1' | 'h2' | 'h3' | 'bullet' | 'numbered' | 'todo' | 'table' | 'code' | 'mermaid' | 'quote' | 'divider' | 'image'
 
 /** Title in the current locale. */
 export function slashTitle(item: SlashItem): string {
@@ -27,6 +27,7 @@ export function slashDescription(item: SlashItem): string {
 }
 
 export const SLASH_ITEMS: SlashItem[] = [
+  { id: 'ai', icon: '✦', aliases: ['ai', 'ia', 'gpt', 'claude', 'chatgpt', 'codex', 'perguntar'], command: 'askAI' },
   { id: 'text', icon: 'Aa', aliases: ['texto', 'paragrafo', 'paragraph', 'p'], command: 'paragraph' },
   { id: 'h1', icon: 'H1', aliases: ['titulo 1', 'h1', 'cabecalho'], command: 'heading1' },
   { id: 'h2', icon: 'H2', aliases: ['titulo 2', 'h2', 'subtitulo'], command: 'heading2' },
@@ -41,6 +42,11 @@ export const SLASH_ITEMS: SlashItem[] = [
   { id: 'divider', icon: '—', aliases: ['divisor', 'separador', 'linha', 'hr', 'rule', 'separator'], command: 'divider' },
   { id: 'image', icon: '▣', aliases: ['imagem', 'foto', 'figura', 'picture', 'photo', 'img'], command: 'insertImage' },
 ]
+
+/** The items to offer: Ask AI only while the host has AI enabled. */
+export function availableSlashItems(aiEnabled: boolean): SlashItem[] {
+  return aiEnabled ? SLASH_ITEMS : SLASH_ITEMS.filter((item) => item.command !== 'askAI')
+}
 
 /** Lowercase without accents, so "título" matches "titulo". */
 export function fold(text: string): string {

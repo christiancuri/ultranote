@@ -104,6 +104,14 @@ private struct Envelope: Codable {
         case .pickImage:
             // The payload is `{}`; whatever it holds is ignored.
             message = .pickImage
+        case .aiAsk:
+            message = .aiAsk(try container.decode(AIAskPayload.self, forKey: .payload))
+        case .aiCancel:
+            message = .aiCancel(try container.decode(AICancelPayload.self, forKey: .payload))
+        case .aiReset:
+            message = .aiReset
+        case .aiOpenSettings:
+            message = .aiOpenSettings
         }
     }
 
@@ -117,7 +125,9 @@ private struct Envelope: Codable {
         case .openLink(let payload): try container.encode(payload, forKey: .payload)
         case .log(let payload): try container.encode(payload, forKey: .payload)
         case .saveAttachment(let payload): try container.encode(payload, forKey: .payload)
-        case .pickImage: try container.encode([String: String](), forKey: .payload)
+        case .aiAsk(let payload): try container.encode(payload, forKey: .payload)
+        case .aiCancel(let payload): try container.encode(payload, forKey: .payload)
+        case .pickImage, .aiReset, .aiOpenSettings: try container.encode([String: String](), forKey: .payload)
         }
     }
 }

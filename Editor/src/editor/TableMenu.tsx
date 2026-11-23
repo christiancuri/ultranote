@@ -2,6 +2,7 @@
  * Toolbar above a table while the cursor is in it. Only operations GFM can
  * store: no merge, no resize.
  */
+import { getAIRange, TABLE_MENU_KEY } from '../ai/highlight'
 import type { Editor } from '@tiptap/core'
 import { findParentNode } from '@tiptap/core'
 import { useEditorState } from '@tiptap/react'
@@ -10,7 +11,7 @@ import { BubbleMenu } from '@tiptap/react/menus'
 import { t } from '../i18n'
 import { useLocale } from './useLocale'
 
-const PLUGIN_KEY = 'tableMenu'
+const PLUGIN_KEY = TABLE_MENU_KEY
 
 function tableElement(editor: Editor): HTMLElement | null {
   const table = findParentNode((node) => node.type.name === 'table')(editor.state.selection)
@@ -52,7 +53,7 @@ export function TableMenu({ editor }: { editor: Editor }) {
         const element = tableElement(editor)
         return element ? { getBoundingClientRect: () => element.getBoundingClientRect() } : null
       }}
-      shouldShow={({ editor: ed }) => ed.isEditable && ed.isFocused && ed.isActive('table')}
+      shouldShow={({ editor: ed }) => ed.isEditable && ed.isFocused && ed.isActive('table') && !getAIRange(ed.state)}
     >
       {actions.map((action, index) => (
         <span key={action.id} className="table-menu-group">

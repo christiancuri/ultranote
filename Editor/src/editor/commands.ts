@@ -4,6 +4,7 @@
  */
 import type { Editor } from '@tiptap/core'
 
+import { openAskAI } from '../ai/store'
 import type { Host } from '../bridge'
 import { pickImage } from './images'
 import { requestLinkEditor } from './linkEvents'
@@ -31,6 +32,7 @@ export const COMMAND_NAMES = [
   'insertTable',
   'insertMermaid',
   'insertImage',
+  'askAI',
 ] as const
 
 export type CommandName = (typeof COMMAND_NAMES)[number]
@@ -65,5 +67,6 @@ export function createCommands(editor: Editor, host: Host): Record<CommandName, 
       void pickImage(editor, host).catch((error: unknown) => console.error('[ultranote] pickImage', error))
       return true
     },
+    askAI: () => openAskAI(editor),
   }
 }

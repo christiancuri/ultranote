@@ -36,6 +36,7 @@ macOS 26 (Tahoe) or later on an Apple Silicon Mac (M1 or newer).
 - **Code blocks** with syntax highlighting for common languages.
 - **Mermaid diagrams.** Write a flowchart, sequence diagram or chart in a `mermaid` block and see it rendered in place.
 - **Images.** Paste or drop images into a note.
+- **Ask AI, answered by your own Claude Code or Codex.** Type `/` → **Ask AI**, select text and click **✦ Ask AI**, or press ⌘J: improve, fix grammar, shorten, expand, summarize, translate or explain, or ask anything. UltraNote runs the `claude` or `codex` command-line tool already on your Mac with your own subscription: no API key and no UltraNote server.
 - **Search and find.** Filter every note from the sidebar search, and find inside the open note with ⌘F.
 - **Export and print.** PDF (paginated or one long page), PNG, plain text or Markdown, print, or copy the note as Markdown.
 - **Light and dark.** Follows the system or a theme you pick, with an adjustable editor font size. The interface is in English or Brazilian Portuguese.
@@ -65,6 +66,7 @@ macOS 26 (Tahoe) or later on an Apple Silicon Mac (M1 or newer).
 | --- | --- |
 | ⌘N | New note |
 | ⌘F / ⌘G / ⇧⌘G | Find in note, next, previous |
+| ⌘J | Ask AI |
 | ⌘P | Print |
 | ⌥⇧⌘C | Copy as Markdown |
 | ⌘B / ⌘I / ⇧⌘X / ⌘E | Bold, italic, strikethrough, inline code |
@@ -80,7 +82,7 @@ Every block, including tables, diagrams and images, is also in the **Format** me
 
 ## Privacy
 
-UltraNote is local-only. Your notes never leave your Mac: there is no account, no cloud service, no analytics and no telemetry. The only network request the app makes on its own is the hourly update check against this repository's GitHub Releases, which you can turn off in Settings. Links in your notes open in your browser.
+UltraNote is local-first. Your notes stay on your Mac unless you use Ask AI: there is no account, no cloud service, no analytics and no telemetry. The only network request the app makes on its own is the hourly update check against this repository's GitHub Releases, which you can turn off in Settings. Ask AI only runs when you ask: it hands your request, plus the selection and (unless you turn it off in Settings) the open note, to the Claude Code or Codex tool installed on your Mac, which sends them to Anthropic or OpenAI under your own account. Turn AI off in Settings to hide it entirely. Links in your notes open in your browser.
 
 ## Build from source
 
@@ -125,6 +127,7 @@ UltraNote/               The app (SwiftUI + AppKit)
 Packages/UltraNoteKit/   All Swift logic and its tests
   EditorBridge           The Swift <-> JavaScript contract (messages, calls, URL policy)
   EditorHost             WKWebView host, app:// scheme handler, async editor API
+  AgentKit               Runs your Claude Code or Codex CLI for Ask AI (discovery, streaming, prompts)
   ExportKit              PDF, PNG, text and Markdown export
   NotesCore              Notes on disk, titles and file names, search, folder watching
 Editor/                  The web editor (Vite + TypeScript + React + TipTap)

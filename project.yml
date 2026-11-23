@@ -57,6 +57,8 @@ targets:
         optional: true
     dependencies:
       - package: UltraNoteKit
+        product: AgentKit
+      - package: UltraNoteKit
         product: EditorBridge
       - package: UltraNoteKit
         product: EditorHost

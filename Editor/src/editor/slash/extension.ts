@@ -9,7 +9,8 @@ import { Suggestion } from '@tiptap/suggestion'
 import type { Host } from '../../bridge'
 import { onLocaleChange } from '../../i18n'
 import { createCommands } from '../commands'
-import { filterSlashItems, type SlashItem } from './items'
+import { aiStore } from '../../ai/store'
+import { availableSlashItems, filterSlashItems, type SlashItem } from './items'
 import { SlashMenuView } from './menuView'
 
 export const slashPluginKey = new PluginKey('slashMenu')
@@ -39,7 +40,7 @@ export const SlashMenu = Extension.create<SlashOptions>({
           const $from = state.doc.resolve(range.from)
           return !$from.parent.type.spec.code
         },
-        items: ({ query }) => filterSlashItems(query),
+        items: ({ query }) => filterSlashItems(query, availableSlashItems(aiStore(editor).getSnapshot().enabled)),
         command: ({ editor: ed, range, props }) => {
           ed.chain().focus().deleteRange(range).run()
           createCommands(ed, getHost())[props.command]()

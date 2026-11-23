@@ -3,6 +3,14 @@
 All notable changes to UltraNote. Each `## <version>` section is used as the
 GitHub Release notes and the in-app (Sparkle) update notes.
 
+## 0.2.0
+
+- **Ask AI inside your notes**, answered by the Claude Code or Codex (ChatGPT) app already installed on your Mac, with your own subscription. No API key, no account, no UltraNote server.
+  - Type `/` and pick **Ask AI**, select text and click **✦ Ask AI**, or press ⌘J.
+  - With a selection: improve writing, fix spelling and grammar, make shorter or longer, summarize, translate or explain. Without one: continue writing, summarize the note, brainstorm ideas or outline.
+  - Ask anything in your own words and keep refining the answer in the same panel. The answer streams in; replace the selection, insert it below, copy it or try again (⌘↩ applies it).
+- **Settings › AI**: turn AI on or off, choose Claude Code or Codex, the model, effort and Codex fast mode, whether the whole note is sent as context, and custom paths to the command-line tools.
+
 ## 0.1.0
 
 First public release.

@@ -28,6 +28,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         isTerminating = true
         Task {
             await model.notes.flush()
+            await model.ai.shutdown()
             sender.reply(toApplicationShouldTerminate: true)
         }
         return .terminateLater

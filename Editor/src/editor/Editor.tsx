@@ -4,6 +4,7 @@ import { useEffect, useMemo } from 'react'
 import { onLocaleChange, t } from '../i18n'
 import { createBridge, defaultHost, type Bridge } from '../bridge'
 import { createExtensions, type EditorMode } from './extensions'
+import { AskAIPanel } from '../ai/AskAIPanel'
 import { FormatMenu } from './FormatMenu'
 import { TableMenu } from './TableMenu'
 
@@ -56,6 +57,7 @@ export function Editor({ mode, onBridge }: EditorProps) {
         <>
           <FormatMenu editor={editor} />
           <TableMenu editor={editor} />
+          <AskAIPanel editor={editor} host={host} />
         </>
       )}
     </>

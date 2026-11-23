@@ -65,6 +65,14 @@ public final class EditorController {
     public var onSaveAttachment: ((SaveAttachmentPayload) async throws -> String)?
     /// `pickImage`: let the user choose an image and store it; `nil` when cancelled.
     public var onPickImage: (() async throws -> String?)?
+    /// `aiAsk`: a request from the AI panel (answer with ``sendAIEvent(_:)``).
+    public var onAIAsk: ((AIAskPayload) -> Void)?
+    /// `aiCancel`: stop the request with this id.
+    public var onAICancel: ((AICancelPayload) -> Void)?
+    /// `aiReset`: the AI panel closed; forget the conversation.
+    public var onAIReset: (() -> Void)?
+    /// `aiOpenSettings`: open Settings on the AI tab.
+    public var onAIOpenSettings: (() -> Void)?
     /// Image files dropped on the view (from Finder), with the drop point in view
     /// coordinates (top-left origin). Store them and insert with ``insertImage(path:at:)``.
     public var onDropImageFiles: (([URL], CGPoint) -> Void)? {
@@ -186,6 +194,16 @@ public final class EditorController {
         _ = try await perform(.setAppearance(appearance))
     }
 
+    /// Streams one AI panel event to the page.
+    public func sendAIEvent(_ event: AIEvent) async throws {
+        _ = try await perform(.aiEvent(event))
+    }
+
+    /// Shows or hides the page's AI entry points.
+    public func setAIState(_ state: AIState) async throws {
+        _ = try await perform(.setAIState(state))
+    }
+
     /// Export mode only. Returns when fonts, images and Mermaid diagrams are final.
     public func renderExport(markdown: String, timeout: Duration? = nil) async throws {
         let call = EditorCall.renderExport(markdown: markdown)
@@ -304,7 +322,7 @@ public final class EditorController {
                 diagnose("pickImage failed: \(error.localizedDescription)")
                 return .failure(error)
             }
-        case .ready, .contentChanged, .openLink, .log:
+        case .ready, .contentChanged, .openLink, .log, .aiAsk, .aiCancel, .aiReset, .aiOpenSettings:
             return .success(handleEvent(message))
         }
     }
@@ -328,6 +346,14 @@ public final class EditorController {
             }
         case .log(let payload):
             onLog?(payload)
+        case .aiAsk(let payload):
+            onAIAsk?(payload)
+        case .aiCancel(let payload):
+            onAICancel?(payload)
+        case .aiReset:
+            onAIReset?()
+        case .aiOpenSettings:
+            onAIOpenSettings?()
         case .saveAttachment, .pickImage:
             break
         }

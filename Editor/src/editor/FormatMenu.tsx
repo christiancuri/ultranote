@@ -8,13 +8,15 @@ import { NodeSelection } from '@tiptap/pm/state'
 import { CellSelection } from '@tiptap/pm/tables'
 import { useEditorState } from '@tiptap/react'
 import { BubbleMenu } from '@tiptap/react/menus'
-import { useCallback, useEffect, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, useSyncExternalStore, type KeyboardEvent } from 'react'
 
+import { FORMAT_MENU_KEY, getAIRange } from '../ai/highlight'
+import { aiStore, openAskAI } from '../ai/store'
 import { t } from '../i18n'
 import { normalizeHref, OPEN_LINK_EVENT } from './linkEvents'
 import { useLocale } from './useLocale'
 
-const PLUGIN_KEY = 'formatMenu'
+const PLUGIN_KEY = FORMAT_MENU_KEY
 
 function selectionAllowsFormatting(editor: Editor): boolean {
   const { selection } = editor.state
@@ -28,6 +30,8 @@ export function FormatMenu({ editor }: { editor: Editor }) {
   const [draft, setDraft] = useState('')
   const linkOpenRef = useRef(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const ai = aiStore(editor)
+  const aiEnabled = useSyncExternalStore(ai.subscribe, () => ai.getSnapshot().enabled)
 
   const state = useEditorState({
     editor,
@@ -128,6 +132,8 @@ export function FormatMenu({ editor }: { editor: Editor }) {
       options={{ placement: 'top', offset: 8, flip: true, shift: { padding: 8 } }}
       shouldShow={({ editor: ed, from, to }) => {
         if (!ed.isEditable) return false
+        // Focus in the Ask AI panel (inside the editor's DOM) is not focus in the text.
+        if (getAIRange(ed.state)) return false
         if (linkOpenRef.current) return true
         if (!selectionAllowsFormatting(ed)) return false
         if (from === to) return ed.isActive('link') && ed.isFocused
@@ -178,6 +184,24 @@ export function FormatMenu({ editor }: { editor: Editor }) {
         </div>
       ) : (
         <div className="format-buttons">
+          {aiEnabled && (
+            <>
+              <button
+                type="button"
+                className="menu-button menu-button-ai"
+                title={t('format.askAITitle')}
+                aria-label={t('format.askAI')}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => openAskAI(editor)}
+              >
+                <span className="menu-button-ai-icon" aria-hidden="true">
+                  ✦
+                </span>
+                {t('format.askAI')}
+              </button>
+              <span className="menu-separator" />
+            </>
+          )}
           {button('bold', 'B', t('format.bold'), () => editor.chain().focus().toggleBold().run())}
           {button('italic', 'I', t('format.italic'), () => editor.chain().focus().toggleItalic().run())}
           {button('strike', 'S', t('format.strike'), () => editor.chain().focus().toggleStrike().run())}

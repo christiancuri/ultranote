@@ -13,6 +13,7 @@ import { Placeholder } from '@tiptap/extensions'
 import { Extension, type Extensions } from '@tiptap/core'
 import { StarterKit } from '@tiptap/starter-kit'
 
+import { AskAIHighlight } from '../ai/highlight'
 import type { Host } from '../bridge'
 import { t } from '../i18n'
 import { CodeBlock } from '../extensions/code-block'
@@ -39,7 +40,7 @@ const LinkShortcut = Extension.create({
 
 /** Editing-only behavior: menus, shortcuts, attachments. Nothing here changes the schema. */
 function editingExtensions(getHost: () => Host): Extensions {
-  return [SlashMenu.configure({ getHost }), ImageDrop.configure({ getHost }), LinkShortcut]
+  return [SlashMenu.configure({ getHost }), ImageDrop.configure({ getHost }), LinkShortcut, AskAIHighlight]
 }
 
 const offlineHost = (): Host => ({ native: false, post: () => Promise.resolve(null) })

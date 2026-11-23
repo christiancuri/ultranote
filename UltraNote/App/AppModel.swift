@@ -29,6 +29,11 @@ final class AppModel {
     let find = FindModel()
     /// Sparkle: hourly update checks, "Check for Updates…" (Release builds).
     let updater = Updater()
+    /// Ask AI: the user's Claude Code / Codex CLIs and Settings › AI.
+    let ai = AIService(defaults: AppModel.defaults)
+    @ObservationIgnored var aiRunner: AIRunner?
+    /// The tab the Settings window shows.
+    var settingsTab = SettingsTab.general
 
     init() {
         editorResources = EditorResourceResolver(editorRoot: Self.editorRoot)
@@ -47,6 +52,7 @@ final class AppModel {
         exporter.model = self
         find.editor = editor
         installAttachmentHandlers()
+        installAI()
         applyWindowAppearance()
         Localization.shared.apply(preferences.language)
     }
@@ -118,6 +124,7 @@ final class AppModel {
             do {
                 try await editor.waitUntilReady()
                 try await editor.setAppearance(preferences.appearance)
+                pushAIState()
                 editorStatus = .ready
                 editor.resources = resources
                 notes.start(folder: notesFolder)

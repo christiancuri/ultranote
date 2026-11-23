@@ -2,8 +2,33 @@ import AppKit
 import EditorBridge
 import SwiftUI
 
-/// ⌘, — notes folder, language, theme and editor font size. Changes apply at once and persist.
+/// The Settings tabs.
+enum SettingsTab: Hashable {
+    case general
+    case ai
+}
+
+/// ⌘, — General (notes folder, language, theme, font size, updates) and AI. Changes apply at
+/// once and persist.
 struct SettingsView: View {
+    @Bindable var model: AppModel
+
+    var body: some View {
+        TabView(selection: $model.settingsTab) {
+            Tab(L("General"), systemImage: "gearshape", value: SettingsTab.general) {
+                GeneralSettingsView(model: model)
+            }
+            Tab(L("AI"), systemImage: "sparkles", value: SettingsTab.ai) {
+                AISettingsView(service: model.ai)
+                    .frame(width: 520, height: 520)
+            }
+        }
+        .environment(\.locale, Localization.shared.locale)
+    }
+}
+
+/// Notes folder, language, theme, editor font size and updates.
+private struct GeneralSettingsView: View {
     let model: AppModel
 
     var body: some View {
@@ -59,7 +84,6 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .frame(width: 460)
         .fixedSize(horizontal: false, vertical: true)
-        .environment(\.locale, Localization.shared.locale)
     }
 
     private func binding<Value>(_ keyPath: WritableKeyPath<EditorPreferences, Value>) -> Binding<Value> {
