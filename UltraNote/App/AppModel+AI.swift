@@ -31,6 +31,10 @@ extension AppModel {
     func openSettings(_ tab: SettingsTab) {
         settingsTab = tab
         NSApp.activate()
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        if let openSettingsWindow {
+            openSettingsWindow()
+        } else {
+            Log.app.error("openSettings: no main window to open Settings from")
+        }
     }
 }

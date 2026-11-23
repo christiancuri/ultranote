@@ -7,6 +7,7 @@ import SwiftUI
 /// The window's content: the note list in the sidebar, the editor in the detail.
 struct MainWindowView: View {
     let model: AppModel
+    @Environment(\.openSettings) private var openSettings
 
     var body: some View {
         @Bindable var notes = model.notes
@@ -58,6 +59,9 @@ struct MainWindowView: View {
             Button(L("OK")) { notes.errorMessage = nil }
         } message: {
             Text(notes.errorMessage ?? "")
+        }
+        .onAppear {
+            model.openSettingsWindow = { [openSettings] in openSettings() }
         }
         .onDisappear {
             Task { await notes.flush() }

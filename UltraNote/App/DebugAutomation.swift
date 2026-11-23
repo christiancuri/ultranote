@@ -24,6 +24,7 @@ import NotesCore
 /// - `find` / `findNext` / `findPrevious` — find bar query `argument` / next / previous.
 /// - `theme` / `language` / `fontSize` / `folder` — change a setting (Settings window equivalents).
 /// - `copyMarkdown` — Edit → Copy as Markdown.
+/// - `aiOpenSettings` — what the Ask AI panel's "Open Settings" button does.
 ///
 ///     osascript -l JavaScript -e "ObjC.import('Foundation'); $.NSDistributedNotificationCenter.defaultCenter
 ///       .postNotificationNameObjectUserInfoDeliverImmediately('dev.christiancuri.ultranote.debug', 'cli',
@@ -99,6 +100,8 @@ enum DebugAutomation {
             model.updatePreferences { $0.notesFolder = URL(filePath: argument, directoryHint: .isDirectory) }
         case "copyMarkdown":
             model.exporter.copyMarkdown()
+        case "aiOpenSettings":
+            model.openSettings(.ai)
         default:
             return false
         }

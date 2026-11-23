@@ -17,6 +17,7 @@ import { AskAIHighlight } from '../ai/highlight'
 import type { Host } from '../bridge'
 import { t } from '../i18n'
 import { CodeBlock } from '../extensions/code-block'
+import { CodeBlockKeys, TabTrap } from '../extensions/code-block-keys'
 import { ImageDrop } from './images'
 import { requestLinkEditor } from './linkEvents'
 import { SlashMenu } from './slash/extension'
@@ -40,7 +41,7 @@ const LinkShortcut = Extension.create({
 
 /** Editing-only behavior: menus, shortcuts, attachments. Nothing here changes the schema. */
 function editingExtensions(getHost: () => Host): Extensions {
-  return [SlashMenu.configure({ getHost }), ImageDrop.configure({ getHost }), LinkShortcut, AskAIHighlight]
+  return [SlashMenu.configure({ getHost }), ImageDrop.configure({ getHost }), LinkShortcut, AskAIHighlight, CodeBlockKeys, TabTrap]
 }
 
 const offlineHost = (): Host => ({ native: false, post: () => Promise.resolve(null) })

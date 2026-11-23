@@ -53,22 +53,21 @@ export function fold(text: string): string {
   return text.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLowerCase().trim()
 }
 
-/** Items matching the query; prefix matches on any word come before substring matches. */
+/** Items matching the query: title matches before alias matches, prefixes before substrings. */
 export function filterSlashItems(query: string, items: SlashItem[] = SLASH_ITEMS): SlashItem[] {
   const q = fold(query)
   if (q === '') return items
+  const score = (name: string, weight: number): number => {
+    if (name.startsWith(q)) return 3 * weight
+    if (name.split(/[\s-]+/).some((word) => word.startsWith(q))) return 2 * weight
+    return name.includes(q) ? 1 : 0
+  }
   const scored: { item: SlashItem; score: number; index: number }[] = []
   items.forEach((item, index) => {
     // Titles of every locale are searchable, whatever the current one.
-    const titles = LOCALES.map((locale) => DICTIONARIES[locale][`slash.${item.id}.title` as MessageKey])
-    const names = [...titles, ...item.aliases].map(fold)
-    let score = 0
-    for (const name of names) {
-      if (name.startsWith(q)) score = Math.max(score, 3)
-      else if (name.split(/[\s-]+/).some((word) => word.startsWith(q))) score = Math.max(score, 2)
-      else if (name.includes(q)) score = Math.max(score, 1)
-    }
-    if (score > 0) scored.push({ item, score, index })
+    const titles = LOCALES.map((locale) => fold(DICTIONARIES[locale][`slash.${item.id}.title` as MessageKey]))
+    const best = Math.max(...titles.map((title) => score(title, 2)), ...item.aliases.map((alias) => score(fold(alias), 1)))
+    if (best > 0) scored.push({ item, score: best, index })
   })
   return scored.sort((a, b) => b.score - a.score || a.index - b.index).map((entry) => entry.item)
 }

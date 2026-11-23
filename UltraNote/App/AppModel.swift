@@ -34,6 +34,9 @@ final class AppModel {
     @ObservationIgnored var aiRunner: AIRunner?
     /// The tab the Settings window shows.
     var settingsTab = SettingsTab.general
+    /// SwiftUI's `openSettings`, handed over by the main window (the only reliable way to
+    /// open the Settings scene from code; `showSettingsWindow:` is ignored outside menus).
+    @ObservationIgnored var openSettingsWindow: (() -> Void)?
 
     init() {
         editorResources = EditorResourceResolver(editorRoot: Self.editorRoot)

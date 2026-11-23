@@ -73,6 +73,9 @@ const en = {
   'table.delTable.title': 'Delete table',
 
   'mermaid.edit': 'Edit',
+  'code.language': 'Change language',
+  'code.plainText': 'Plain text',
+  'code.filterLanguages': 'Search languages…',
   'mermaid.done': 'Done',
   'mermaid.empty': 'Empty diagram.',
   'mermaid.failed': 'Could not render the diagram.',
@@ -189,6 +192,9 @@ const ptBR: Record<MessageKey, string> = {
   'table.delTable.title': 'Excluir tabela',
 
   'mermaid.edit': 'Editar',
+  'code.language': 'Alterar linguagem',
+  'code.plainText': 'Texto simples',
+  'code.filterLanguages': 'Buscar linguagens…',
   'mermaid.done': 'Concluir',
   'mermaid.empty': 'Diagrama vazio.',
   'mermaid.failed': 'Não foi possível renderizar o diagrama.',

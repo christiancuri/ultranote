@@ -3,6 +3,14 @@
 All notable changes to UltraNote. Each `## <version>` section is used as the
 GitHub Release notes and the in-app (Sparkle) update notes.
 
+## 0.2.1
+
+- **Writing code is much better.** In a code block, Tab and Shift+Tab indent and outdent (also several lines at once) instead of leaving the editor; Enter keeps the line's indentation and indents after `{`, `(`, `[` or `:`; a closing `}`, `)` or `]` outdents itself; blank lines stay inside the block; ⌘↩ continues below the block; pasted code keeps its line breaks; and autocorrect stays out of your code.
+- **Pick a code block's language** from its corner label.
+- **Typing ```js and Enter** now starts a code block reliably, also with keyboards where the backtick is a dead key.
+- **`/code` finds Code block** first instead of Ask AI.
+- **Fixed:** the **Open Settings** button on an Ask AI error now opens Settings › AI.
+
 ## 0.2.0
 
 - **Ask AI inside your notes**, answered by the Claude Code or Codex (ChatGPT) app already installed on your Mac, with your own subscription. No API key, no account, no UltraNote server.

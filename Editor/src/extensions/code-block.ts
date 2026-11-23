@@ -15,6 +15,7 @@ import { common, createLowlight } from 'lowlight'
 
 import { onThemeChange, resolvedTheme } from '../appearance'
 import { onLocaleChange, t } from '../i18n'
+import { languageLabel, languageOptions, openLanguagePicker } from './code-block-language'
 import { renderMermaid } from './mermaid-renderer'
 
 export const MERMAID_LANGUAGE = 'mermaid'
@@ -46,6 +47,8 @@ class CodeBlockView implements NodeView {
   private readonly editor: Editor
   private readonly getPos: () => number | undefined
   private readonly pre: HTMLElement
+  /** Corner label that opens the language list (edit mode only). */
+  private readonly languageButton: HTMLButtonElement | null = null
 
   private preview: HTMLElement | null = null
   private diagram: HTMLElement | null = null
@@ -67,8 +70,23 @@ class CodeBlockView implements NodeView {
     this.dom.className = 'code-block'
     this.pre = document.createElement('pre')
     this.contentDOM = document.createElement('code')
+    // Code is not prose: no spelling marks, autocorrect or capitals.
+    this.contentDOM.setAttribute('spellcheck', 'false')
+    this.contentDOM.setAttribute('autocorrect', 'off')
+    this.contentDOM.setAttribute('autocapitalize', 'off')
     this.pre.append(this.contentDOM)
     this.dom.append(this.pre)
+    if (editor.isEditable) {
+      this.languageButton = document.createElement('button')
+      this.languageButton.type = 'button'
+      this.languageButton.className = 'code-language'
+      this.languageButton.contentEditable = 'false'
+      this.languageButton.addEventListener('mousedown', (event) => {
+        event.preventDefault()
+        this.openLanguages()
+      })
+      this.dom.prepend(this.languageButton)
+    }
 
     this.stopThemeListener = onThemeChange(() => this.syncMermaid(true))
     this.stopLocaleListener = onLocaleChange(() => this.syncLocale())
@@ -91,7 +109,21 @@ class CodeBlockView implements NodeView {
   }
 
   stopEvent(event: Event): boolean {
-    return this.preview !== null && event.target instanceof Node && this.preview.contains(event.target)
+    if (!(event.target instanceof Node)) return false
+    if (this.languageButton?.contains(event.target)) return true
+    return this.preview !== null && this.preview.contains(event.target)
+  }
+
+  private openLanguages(): void {
+    const button = this.languageButton
+    if (!button) return
+    openLanguagePicker(button, languageOptions(lowlight.listLanguages()), this.language, (language) => {
+      const position = this.getPos()
+      if (position === undefined) return
+      const tr = this.editor.state.tr.setNodeMarkup(position, undefined, { ...this.node.attrs, language: language || null })
+      this.editor.view.dispatch(tr)
+      this.editor.commands.focus()
+    })
   }
 
   destroy(): void {
@@ -111,6 +143,10 @@ class CodeBlockView implements NodeView {
     if (language === '') delete this.dom.dataset.language
     else this.dom.dataset.language = language
     this.contentDOM.className = language === '' ? '' : `language-${language}`
+    if (this.languageButton) {
+      this.languageButton.textContent = languageLabel(language)
+      this.languageButton.title = t('code.language')
+    }
   }
 
   private syncMermaid(immediately: boolean): void {
@@ -156,6 +192,7 @@ class CodeBlockView implements NodeView {
 
   /** Relabels the toggle and re-renders a failed diagram so its message follows the locale. */
   private syncLocale(): void {
+    if (this.languageButton) this.syncLanguage()
     if (!this.preview) return
     const edit = this.preview.querySelector('.mermaid-toggle-edit')
     if (edit) edit.textContent = t('mermaid.edit')
@@ -299,4 +336,4 @@ export const CodeBlock = CodeBlockLowlight.extend({
   addProseMirrorPlugins() {
     return [...(this.parent?.() ?? []), activeBlockPlugin(this.editor, this.name)]
   },
-}).configure({ lowlight: highlighter, defaultLanguage: null })
+}).configure({ lowlight: highlighter, defaultLanguage: null, exitOnTripleEnter: false, exitOnArrowDown: false })
