@@ -1,0 +1,240 @@
+/*
+ * Popovers: slash menu, formatting bubble, link field, table toolbar, and
+ * the Mermaid edit/preview toggle. Edit mode only; nothing here prints.
+ */
+
+.slash-menu,
+.bubble-menu {
+  z-index: 50;
+  background: var(--background);
+  color: var(--text);
+  border-radius: 10px;
+  box-shadow: var(--popover-shadow);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+/* Slash menu */
+
+.slash-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 300px;
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 6px;
+  animation: popover-in 0.12s ease-out;
+}
+
+.slash-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.slash-menu-item[aria-selected='true'] {
+  background: var(--hover);
+}
+
+.slash-menu-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.slash-menu-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.slash-menu-title {
+  font-weight: 500;
+}
+
+.slash-menu-description {
+  color: var(--text-muted);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.slash-menu-empty {
+  padding: 8px 10px;
+  color: var(--text-muted);
+}
+
+/* The typed "/query" while the menu is open. */
+.note .suggestion {
+  color: var(--text-muted);
+}
+
+/* Bubble menus */
+
+.bubble-menu {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 4px;
+}
+
+.format-buttons,
+.link-field,
+.link-bar,
+.table-menu-group {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.menu-button {
+  height: 28px;
+  min-width: 28px;
+  padding: 0 8px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.menu-button:hover {
+  background: var(--hover);
+}
+
+.menu-button[data-active='true'] {
+  color: var(--accent);
+  background: color-mix(in srgb, var(--accent) 12%, transparent);
+}
+
+.menu-button[data-danger='true']:hover,
+.menu-button-unlink:hover {
+  color: var(--error);
+  background: var(--error-surface);
+}
+
+.menu-button-bold {
+  font-weight: 700;
+}
+
+.menu-button-italic {
+  font-style: italic;
+  font-family: Georgia, serif;
+}
+
+.menu-button-strike {
+  text-decoration: line-through;
+}
+
+.menu-button-code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.menu-separator {
+  width: 1px;
+  height: 18px;
+  margin: 0 4px;
+  background: var(--border);
+}
+
+.link-input {
+  width: 260px;
+  height: 28px;
+  padding: 0 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-size: 13px;
+}
+
+.link-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+.link-href {
+  max-width: 260px;
+  padding: 0 8px;
+  overflow: hidden;
+  color: var(--text-muted);
+  font-size: 13px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+/* Mermaid edit/preview toggle */
+
+.note .mermaid-preview {
+  position: relative;
+}
+
+.note .mermaid-toggle {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 3px 10px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.note .code-block:hover .mermaid-toggle,
+.note .code-block.is-active .mermaid-toggle {
+  opacity: 1;
+}
+
+.note .mermaid-toggle:hover {
+  color: var(--text);
+}
+
+.note .mermaid-toggle-done,
+.note .code-block.is-active .mermaid-toggle-edit {
+  display: none;
+}
+
+.note .code-block.is-active .mermaid-toggle-done {
+  display: inline;
+  color: var(--accent);
+}
+
+@keyframes popover-in {
+  from {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+}
+
+@media print {
+  .slash-menu,
+  .bubble-menu,
+  .note .mermaid-toggle {
+    display: none !important;
+  }
+}

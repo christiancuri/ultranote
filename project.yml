@@ -1,0 +1,116 @@
+# UltraNote for macOS — XcodeGen spec. Single source of truth for identifiers, signing,
+# entitlements and Info.plist keys. Run `make gen` after editing; never edit the generated
+# UltraNote.xcodeproj (it is gitignored).
+name: UltraNote
+
+options:
+  bundleIdPrefix: dev.christiancuri
+  deploymentTarget:
+    macOS: "26.0"
+  createIntermediateGroups: true
+  groupSortPosition: top
+  generateEmptyDirectories: false
+
+packages:
+  UltraNoteKit:
+    path: Packages/UltraNoteKit
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    # Keep in sync with SPARKLE_VERSION in scripts/sparkle-tools.sh.
+    exactVersion: 2.10.0
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    ARCHS: arm64
+    EXCLUDED_ARCHS: x86_64
+    ONLY_ACTIVE_ARCH: "YES"
+    MACOSX_DEPLOYMENT_TARGET: "26.0"
+    # No team in the repo: `make build` passes DEVELOPMENT_TEAM (from $TEAM_ID or the
+    # gitignored .team-id file) on the xcodebuild command line.
+    CODE_SIGN_STYLE: Automatic
+    CODE_SIGN_IDENTITY: Apple Development
+    DEVELOPMENT_TEAM: "$(TEAM_ID)"
+    ENABLE_HARDENED_RUNTIME: "YES"
+    DEAD_CODE_STRIPPING: "YES"
+    MARKETING_VERSION: "0.1.0"
+    # Placeholder for local builds; Release builds fail with it (see preBuildScripts). It is 0,
+    # not 1, because the first commit makes 1 a real build number (git rev-list --count).
+    CURRENT_PROJECT_VERSION: "0"
+
+targets:
+  UltraNote:
+    type: application
+    platform: macOS
+    sources:
+      - path: UltraNote
+        excludes:
+          - Info.plist
+          - UltraNote.entitlements
+      # The editor web bundle (Vite output of `make editor`), copied as a folder reference to
+      # Contents/Resources/editor/. `optional` lets `make gen` run before the first
+      # `make editor`; `make build` always builds the bundle first.
+      - path: build/editor
+        type: folder
+        buildPhase: resources
+        optional: true
+    dependencies:
+      - package: UltraNoteKit
+        product: EditorBridge
+      - package: UltraNoteKit
+        product: EditorHost
+      - package: UltraNoteKit
+        product: ExportKit
+      - package: UltraNoteKit
+        product: NotesCore
+      - package: Sparkle
+    preBuildScripts:
+      # Sparkle compares CFBundleVersion: a Release build must carry a real, growing build
+      # number. scripts/release.sh passes CURRENT_PROJECT_VERSION=<git commit count>.
+      - name: Require release build number
+        basedOnDependencyAnalysis: false
+        script: |
+          if [ "$CONFIGURATION" = "Release" ] && [ "$CURRENT_PROJECT_VERSION" = "0" ]; then
+            echo "error: Release builds need a real build number. Use scripts/release.sh (or make release), which sets CURRENT_PROJECT_VERSION to the git commit count."
+            exit 1
+          fi
+    settings:
+      base:
+        PRODUCT_NAME: UltraNote
+        PRODUCT_MODULE_NAME: UltraNote
+        PRODUCT_BUNDLE_IDENTIFIER: dev.christiancuri.ultranote
+        # UltraNote/AppIcon.icon (Icon Composer); regenerate with Branding/make-icons.sh.
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        COMBINE_HIDPI_IMAGES: "YES"
+        ENABLE_PREVIEWS: "YES"
+    info:
+      path: UltraNote/Info.plist
+      properties:
+        CFBundleDisplayName: UltraNote
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.productivity
+        LSMinimumSystemVersion: $(MACOSX_DEPLOYMENT_TARGET)
+        NSHumanReadableCopyright: © Christian Curi
+        SUFeedURL: https://github.com/christiancuri/ultranote/releases/latest/download/appcast.xml
+        # EdDSA public key; the private key lives in the login keychain (`make sparkle-key`).
+        SUPublicEDKey: piHiBQ0c0KvkOKx4KSAJDnkpoGk446Z5KuX1QAoqTyA=
+        SUEnableAutomaticChecks: true
+        # Hourly checks; the app also checks ~30 s after launch (Updates/Updater.swift).
+        SUScheduledCheckInterval: 3600
+    entitlements:
+      path: UltraNote/UltraNote.entitlements
+      # Not sandboxed (Sparkle replaces the app bundle in place on update). The hardened runtime needs no exception here: WebKit runs JavaScript
+      # in its own helper processes, which carry their own entitlements.
+      properties: {}
+
+schemes:
+  UltraNote:
+    build:
+      targets:
+        UltraNote: all
+    run:
+      config: Debug
+    archive:
+      config: Release

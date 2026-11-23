@@ -1,0 +1,619 @@
+/*
+ * Editor typography and theme. Every color is a variable defined with
+ * light-dark(), so the theme follows `color-scheme`: the system by default,
+ * or `html[data-theme]` when the host forces one (setAppearance), and always
+ * light in export mode. Menus and popovers live in menus.css.
+ */
+
+:root {
+  color-scheme: light dark;
+
+  --font-size: 16px;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --line-height: 1.65;
+  --content-width: 760px;
+  --gutter: 32px;
+
+  --accent: light-dark(#2f6fde, #6ea2ff);
+  --text: light-dark(#26262a, #e6e6e8);
+  --text-muted: light-dark(#8a8a90, #8e8e94);
+  --background: light-dark(#ffffff, #1e1e20);
+  --surface: light-dark(#f6f6f4, #2a2a2c);
+  --surface-strong: light-dark(#ececea, #343437);
+  --border: light-dark(#e3e3e0, #3a3a3e);
+  --selection: color-mix(in srgb, var(--accent) 24%, transparent);
+  --hover: light-dark(rgb(55 53 47 / 6%), rgb(255 255 255 / 6%));
+  --inline-code: light-dark(#c4423a, #ff8a80);
+  --shadow: light-dark(0 1px 2px rgb(0 0 0 / 6%), 0 1px 2px rgb(0 0 0 / 40%));
+  --popover-shadow: light-dark(
+    0 0 0 1px rgb(15 15 15 / 6%), 0 4px 12px rgb(15 15 15 / 10%), 0 12px 32px rgb(15 15 15 / 8%),
+    0 0 0 1px rgb(255 255 255 / 8%), 0 4px 12px rgb(0 0 0 / 40%), 0 12px 32px rgb(0 0 0 / 30%)
+  );
+  --error: light-dark(#c4302b, #ff6b62);
+  --error-surface: light-dark(#fdeceb, #3a2322);
+
+  /* Syntax colors (highlight.js classes from lowlight). */
+  --code-keyword: light-dark(#ad3da4, #ff7ab2);
+  --code-string: light-dark(#c41a16, #ff8170);
+  --code-number: light-dark(#1c00cf, #d9c97c);
+  --code-comment: light-dark(#5d6c79, #7f8c98);
+  --code-title: light-dark(#326d74, #67b7a4);
+  --code-type: light-dark(#0b4f79, #5dd8ff);
+  --code-attr: light-dark(#815f03, #d0a8ff);
+  --code-meta: light-dark(#643820, #fd8f3f);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--background);
+  color: var(--text);
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: var(--font-size);
+  line-height: var(--line-height);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--selection);
+}
+
+/* ------------------------------------------------------------------------- */
+/* Layout                                                                     */
+/* ------------------------------------------------------------------------- */
+
+.editor-root {
+  min-height: 100vh;
+}
+
+.note {
+  max-width: var(--content-width);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 48px var(--gutter) 30vh;
+  outline: none;
+  overflow-wrap: break-word;
+  caret-color: var(--accent);
+}
+
+:root[data-mode='export'] .note {
+  /* Fixed width so every export has the same line length. */
+  width: var(--content-width);
+  max-width: none;
+  min-height: 0;
+  padding: 40px var(--gutter);
+}
+
+.note > :first-child {
+  margin-top: 0;
+}
+
+.note > :last-child {
+  margin-bottom: 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Text                                                                       */
+/* ------------------------------------------------------------------------- */
+
+.note p {
+  margin: 0 0 0.6em;
+}
+
+.note h1,
+.note h2,
+.note h3,
+.note h4,
+.note h5,
+.note h6 {
+  margin: 1.5em 0 0.4em;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+}
+
+.note h1 {
+  font-size: 2.1em;
+  letter-spacing: -0.025em;
+}
+
+.note h2 {
+  font-size: 1.55em;
+  font-weight: 650;
+}
+
+.note h3 {
+  font-size: 1.25em;
+  font-weight: 650;
+}
+
+.note h4 {
+  font-size: 1.1em;
+}
+
+.note h5,
+.note h6 {
+  font-size: 1em;
+}
+
+.note h6 {
+  color: var(--text-muted);
+}
+
+.note a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  cursor: pointer;
+}
+
+.note strong {
+  font-weight: 650;
+}
+
+.note code {
+  font-family: var(--font-mono);
+  font-size: 0.86em;
+  color: var(--inline-code);
+  background: var(--surface);
+  border-radius: 4px;
+  padding: 0.15em 0.35em;
+}
+
+.note blockquote {
+  margin: 0 0 0.75em;
+  padding: 0 0 0 1em;
+  border-left: 3px solid var(--text);
+  color: var(--text);
+}
+
+.note hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 2em 0;
+}
+
+.note hr.ProseMirror-selectednode {
+  border-top-color: var(--accent);
+}
+
+.note img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+  vertical-align: bottom;
+}
+
+.note img.ProseMirror-selectednode {
+  outline: 2px solid var(--accent);
+}
+
+/* Block image: its own line, centered. Inline images keep the rule above. */
+.note img:not(p img) {
+  display: block;
+  margin: 0.75em auto;
+}
+
+/* A selected node shows its outline only, not WebKit's native selection band. */
+.ProseMirror-hideselection *::selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection {
+  caret-color: transparent;
+}
+
+.note[contenteditable='true'] img:not(p img) {
+  cursor: grab;
+}
+
+/* Placeholder on the empty line holding the cursor, and on an empty note. */
+.note[contenteditable='true'] :is(p, h1, h2, h3).is-empty::before,
+.note p.is-editor-empty:first-child::before {
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Lists                                                                      */
+/* ------------------------------------------------------------------------- */
+
+.note ul,
+.note ol {
+  margin: 0 0 0.75em;
+  padding-left: 1.6em;
+}
+
+.note li > p {
+  margin: 0.15em 0;
+}
+
+.note li > ul,
+.note li > ol {
+  margin-bottom: 0;
+}
+
+.note ul[data-type='taskList'] {
+  list-style: none;
+  padding-left: 0.2em;
+}
+
+.note ul[data-type='taskList'] li {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.note ul[data-type='taskList'] li > label {
+  flex: none;
+  margin-top: 0.3em;
+  user-select: none;
+}
+
+.note ul[data-type='taskList'] li > label input {
+  width: 1em;
+  height: 1em;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.note ul[data-type='taskList'] li > div {
+  flex: 1;
+  min-width: 0;
+}
+
+.note ul[data-type='taskList'] li[data-checked='true'] > div > p {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.note ul[data-type='taskList'] ul[data-type='taskList'] {
+  margin: 0;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Tables                                                                     */
+/* ------------------------------------------------------------------------- */
+
+.note .tableWrapper {
+  margin: 0 0 1em;
+  overflow-x: auto;
+}
+
+.note table {
+  border-collapse: collapse;
+  min-width: 50%;
+  font-size: 0.95em;
+}
+
+.note th,
+.note td {
+  position: relative;
+  border: 1px solid var(--border);
+  padding: 0.35em 0.7em;
+  vertical-align: top;
+  text-align: left;
+  min-width: 3em;
+}
+
+.note th {
+  background: var(--surface);
+  font-weight: 600;
+}
+
+.note th > p,
+.note td > p {
+  margin: 0;
+}
+
+.note .selectedCell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--selection);
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Code blocks                                                                */
+/* ------------------------------------------------------------------------- */
+
+.note .code-block {
+  position: relative;
+  margin: 0 0 1em;
+}
+
+.note .code-block pre {
+  margin: 0;
+  padding: 0.85em 1em;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow-x: auto;
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  line-height: 1.5;
+  tab-size: 4;
+}
+
+.note .code-block pre code {
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: inherit;
+  white-space: pre;
+}
+
+.note .code-block[data-language]::after {
+  content: attr(data-language);
+  position: absolute;
+  top: 0.4em;
+  right: 0.7em;
+  font-family: var(--font-body);
+  font-size: 0.7em;
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.hljs-keyword,
+.hljs-selector-tag,
+.hljs-literal,
+.hljs-built_in {
+  color: var(--code-keyword);
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-symbol,
+.hljs-template-tag {
+  color: var(--code-string);
+}
+
+.hljs-number,
+.hljs-bullet {
+  color: var(--code-number);
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: var(--code-comment);
+  font-style: italic;
+}
+
+.hljs-title,
+.hljs-section,
+.hljs-name {
+  color: var(--code-title);
+}
+
+.hljs-type,
+.hljs-class,
+.hljs-tag {
+  color: var(--code-type);
+}
+
+.hljs-attr,
+.hljs-attribute,
+.hljs-variable,
+.hljs-params,
+.hljs-property {
+  color: var(--code-attr);
+}
+
+.hljs-meta,
+.hljs-doctag,
+.hljs-addition,
+.hljs-deletion {
+  color: var(--code-meta);
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: 650;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Mermaid                                                                    */
+/* ------------------------------------------------------------------------- */
+
+.note .mermaid-preview {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5em;
+  padding: 1em;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+}
+
+:root[data-mode='export'] .note .mermaid-preview {
+  cursor: default;
+}
+
+.note .mermaid-diagram {
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.note .mermaid-diagram svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.note .mermaid-error:empty {
+  display: none;
+}
+
+.note .mermaid-error {
+  align-self: stretch;
+  padding: 0.5em 0.75em;
+  border-radius: 6px;
+  background: var(--error-surface);
+  color: var(--error);
+  font-family: var(--font-mono);
+  font-size: 0.8em;
+  white-space: pre-wrap;
+}
+
+/* The source is shown while the block is being edited, or when it failed. */
+.note .code-block[data-mermaid-state] pre {
+  display: none;
+}
+
+.note .code-block[data-mermaid-state].is-active pre,
+.note .code-block[data-mermaid-state='error'] pre {
+  display: block;
+  margin-top: 0.5em;
+}
+
+.note .code-block[data-mermaid-state].is-active .mermaid-preview {
+  border-color: var(--accent);
+}
+
+.note .code-block[data-mermaid-state='pending'] .mermaid-diagram:empty::before {
+  content: 'Rendering diagram…';
+  color: var(--text-muted);
+  font-size: 0.85em;
+}
+
+.note .code-block[data-mermaid-state]::after {
+  display: none;
+}
+
+/* ------------------------------------------------------------------------- */
+/* Export and print                                                           */
+/* ------------------------------------------------------------------------- */
+
+/* Wide tables wrap instead of running off the page. */
+:root[data-mode='export'] .note .tableWrapper {
+  overflow: visible;
+}
+
+:root[data-mode='export'] .note table {
+  width: 100%;
+  table-layout: fixed;
+}
+
+:root[data-mode='export'] .note th,
+:root[data-mode='export'] .note td {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+:root[data-mode='export'] .note .code-block pre {
+  overflow: visible;
+}
+
+:root[data-mode='export'] .note .code-block pre code {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@page {
+  margin: 18mm 16mm;
+}
+
+@media print {
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: #ffffff;
+  }
+
+  .note,
+  :root[data-mode='export'] .note {
+    width: auto;
+    max-width: none;
+    min-height: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .note .tableWrapper {
+    overflow: visible;
+  }
+
+  .note table {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .note th,
+  .note td {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .note thead,
+  .note tr:first-child {
+    break-inside: avoid;
+  }
+
+  .note tr,
+  .note .code-block,
+  .note .mermaid-preview,
+  .note img,
+  .note blockquote {
+    break-inside: avoid;
+  }
+
+  .note h1,
+  .note h2,
+  .note h3,
+  .note h4,
+  .note h5,
+  .note h6 {
+    break-after: avoid;
+  }
+
+  .note .code-block pre {
+    overflow: visible;
+  }
+
+  .note .code-block pre code {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  .note .mermaid-diagram {
+    overflow: visible;
+  }
+
+  .note a {
+    color: inherit;
+  }
+}

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="660" height="400" viewBox="0 0 660 400">
+  <!-- DMG window background (660 x 400 pt). Finder draws the icons, 128 pt:
+       UltraNote.app centered at (160, 190), the Applications link at (500, 190).
+       Colors come from UltraNote/AppIcon.icon/icon.json (violet gradient #7B61FF -> #2A1B78).
+       Rendered by make-dmg-assets.sh with resvg + SF Pro (dmg-background.png, @2x). -->
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCFBFF"/>
+      <stop offset="1" stop-color="#F1EEFB"/>
+    </linearGradient>
+    <linearGradient id="arrow" x1="258" y1="0" x2="402" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7B61FF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#4A35B5" stop-opacity="0.9"/>
+    </linearGradient>
+  </defs>
+  <rect width="660" height="400" fill="url(#bg)"/>
+  <!-- Faint ruled lines, like a notebook page. -->
+  <g stroke="#2A1B78" stroke-opacity="0.035" stroke-width="1">
+    <path d="M0 40H660M0 70H660M0 330H660M0 360H660"/>
+  </g>
+  <!-- Drop slots behind each icon and its Finder label. -->
+  <rect x="420" y="100" width="160" height="190" rx="30" fill="#2A1B78" fill-opacity="0.04"/>
+  <!-- The app slot is a note page with a folded corner, the motif of the app icon. -->
+  <path d="M110 90H220L250 120V286Q250 300 236 300H84Q70 300 70 286V104Q70 90 84 90Z"
+        fill="#2A1B78" fill-opacity="0.04" stroke="#7B61FF" stroke-opacity="0.4" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M220 90V112Q220 120 228 120H250" fill="none" stroke="#7B61FF" stroke-opacity="0.4" stroke-width="2.5" stroke-linejoin="round"/>
+  <!-- Arrow from the app slot to the Applications slot. -->
+  <g fill="none" stroke="url(#arrow)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M266 190H392"/>
+    <path d="M380 177.5L393 190L380 202.5"/>
+  </g>
+  <text x="330" y="350" text-anchor="middle" font-family="SF Pro, System Font" font-size="13" letter-spacing="-0.08" fill="#1D1D1F" fill-opacity="0.5">Drag UltraNote to Applications to install</text>
+</svg>

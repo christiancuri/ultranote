@@ -1,0 +1,32 @@
+# macOS
+.DS_Store
+
+# Xcode — generated project (regenerate with `make gen`)
+UltraNote.xcodeproj
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# Editor web bundle (pnpm); its output goes to build/editor
+node_modules/
+
+# Working plan (local only)
+docs/plan.md
+
+# Signing: the development team id is local only
+.team-id
+
+# Secrets, signing material, Sparkle keys
+*.p12
+*.cer
+*.certSigningRequest
+*.mobileprovision
+*.provisionprofile
+secrets/
+*.pem
+*_private_key*
